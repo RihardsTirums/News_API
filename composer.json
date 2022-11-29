@@ -10,7 +10,8 @@
         "jcobhams/newsapi": "^1.0",
         "nikic/fast-route": "^1.3",
         "twbs/bootstrap": "^5.2",
-        "twig/twig": "^3.0"
+        "twig/twig": "^3.0",
+        "nesbot/carbon": "^2.63"
 
     }
 }

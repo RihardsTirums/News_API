@@ -9,7 +9,7 @@ $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $route) {
-    $route->addRoute('GET', '/', [ArticlesController::class, 'index']);
+    $route->addRoute('GET', '/', [ArticlesController::class, 'view']);
 });
 
 // Fetch method and URI from somewhere
@@ -36,7 +36,6 @@ switch ($routeInfo[0]) {
         $vars = $routeInfo[2];
         [$controller, $method] = $handler;
         $response = (new $controller)->{$method}();
-
         if ($response instanceof Template) {
             echo $response->render();
         }

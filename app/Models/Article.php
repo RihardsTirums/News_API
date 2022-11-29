@@ -2,19 +2,23 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+
 class Article
 {
     private string $title;
     private string $url;
     private string $description;
     private ?string $picture;
+    private string $publishedAt;
 
-    public function __construct(string $title, string $url, string $description, ?string $picture = null)
+    public function __construct(string $title, string $url, string $description, ?string $picture, string $publishedAt)
     {
         $this->title = $title;
         $this->url = $url;
         $this->description = $description;
         $this->picture = $picture;
+        $this->publishedAt = $publishedAt;
     }
 
     public function getTitle(): string
@@ -37,4 +41,8 @@ class Article
         return $this->picture;
     }
 
+    public function getPublishedAt(): string
+    {
+        return Carbon::createFromDate($this->publishedAt)->format('d/m/y h:i');
+    }
 }
