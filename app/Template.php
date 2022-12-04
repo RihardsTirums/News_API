@@ -16,6 +16,16 @@ class Template
         $this->data = $data;
     }
 
+    public function getPath(): string
+    {
+        return $this->path;
+    }
+
+    public function getData(): array
+    {
+        return $this->data;
+    }
+
     public function render(): string
     {
         $loader = new FilesystemLoader($this->viewsBasePath);

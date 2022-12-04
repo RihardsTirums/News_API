@@ -25,8 +25,14 @@
                 </button>
             </div>
         </form>
+       <div class="my-auto pe-3 d-flex ">
+           <a style="background-color: darkturquoise" class="text-decoration-none border-0 fs-5 btn btn-light text-white btn-lg" href="/login">LogIn</a>
+           <a  class="text-decoration-none fs-5 btn btn-light border-0 text-bg-primary btn-lg ms-3" href="/register">Register</a>
+           <a  class="text-decoration-none fs-5 btn btn-light border-0 text-bg-primary btn-lg ms-3" href="">Logout</a>
+       </div>
     </div>
 </div>
+
 <div class="container my-5">
     {% for row in articles|batch(3) %}
         <div class="row mt-5">

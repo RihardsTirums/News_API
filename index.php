@@ -2,14 +2,31 @@
 require_once "vendor/autoload.php";
 
 use App\Controllers\ArticlesController;
+use App\Controllers\LoginController;
+use App\Controllers\RegisterController;
+use App\Controllers\LogoutController;
 use App\Template;
 use Dotenv\Dotenv;
+use App\Database;
+use App\Redirect;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+
 
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
+$loader = new FilesystemLoader('views');
+$twig = new Environment($loader);
+$twig->addGlobal('session', $_SESSION);
+
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $route) {
     $route->addRoute('GET', '/', [ArticlesController::class, 'view']);
+    $route->addRoute('GET', '/register', [RegisterController::class, 'showForm']);
+    $route->addRoute('POST', '/register', [RegisterController::class, 'store']);
+    $route->addRoute('GET', '/login', [LoginController::class, 'showForm']);
+    $route->addRoute('POST', '/login', [LoginController::class, 'login']);
+    $route->addRoute('GET', '/logout', [LogoutController::class, 'logout']);
 });
 
 // Fetch method and URI from somewhere
@@ -34,11 +51,32 @@ switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::FOUND:
         $handler = $routeInfo[1];
         $vars = $routeInfo[2];
+
         [$controller, $method] = $handler;
+
         $response = (new $controller)->{$method}();
+
         if ($response instanceof Template) {
-            echo $response->render();
+            $userName = '';
+            if (isset($_SESSION['userId'])) {
+                $queryBuilder = (new Database())->getConnection()->createQueryBuilder();
+                $user = $queryBuilder
+                    ->select('name')
+                    ->from('users')
+                    ->where('id = ?')
+                    ->setParameter(0, $_SESSION['userId'])->fetchAssociative();
+                $userName = $user;
+
+            }
+            echo $twig->render($response->getPath(), array_merge($response->getData(), ['user' => $userName]));
+        }
+
+        if ($response instanceof Redirect) {
+            header('Location: ' . $response->getUrl());
+            exit;
         }
         break;
 }
+
+unset($_SESSION['errors']);
 
