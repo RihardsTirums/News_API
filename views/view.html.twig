@@ -11,39 +11,49 @@
 <div class="container-fluid text-center"
      style="background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%); background-size: cover; background-repeat: no-repeat; background-position: center;">
 
-    <div class="d-flex" style="height: 120px; width: auto">
-        <div>
-            <img style="height: 100px; filter:  invert(100%) sepia(16%) saturate(7463%) hue-rotate(222deg) brightness(119%) contrast(115%);"
-                 class="img-fluid ps-5 pt-3" src="../img/news-logo.png">
-        </div>
-        <form action="" class="w-50 align-self-center mx-auto">
+    <div class="d-flex" style="height: 100px; width: auto">
+
+            <img style="height: 100px; filter:  invert(100%) sepia(16%) saturate(7463%) hue-rotate(222deg) brightness(119%) contrast(115%);"class="img-fluid ps-5 pt-3 me-5 pe-5" src="../img/news-logo.png">
+
+        <form action="" class="w-25 align-self-center mx-auto ms-0 ms-5 ps-3">
             <div class="input-group">
                 <input type="text" name="search"
-                       class="form-control border border-info border-2 bg-gradient shadow-none" placeholder="Search..."
+                       class="form-control border border-2 bg-gradient shadow-none rounded-0" placeholder="Search..."
                        aria-label="Recipient's username" aria-describedby="button-addon2">
-                <button style="background-color: dimgray" class="btn border-0 bg-gray text-white" type="submit">Find
+                <button style="background-color: dimgray; background-color: dimgray" class="btn btn-light border-0 text-white" type="submit">Find
                 </button>
             </div>
         </form>
        <div class="my-auto pe-3 d-flex ">
-           <a style="background-color: darkturquoise" class="text-decoration-none border-0 fs-5 btn btn-light text-white btn-lg" href="/login">LogIn</a>
-           <a  class="text-decoration-none fs-5 btn btn-light border-0 text-bg-primary btn-lg ms-3" href="/register">Register</a>
-           <a  class="text-decoration-none fs-5 btn btn-light border-0 text-bg-primary btn-lg ms-3" href="">Logout</a>
+              <div class="pe-4 my-auto">
+                  {% if user.name %}
+                      <h6 class="m-0 text-light">Hi {{ user.name }}, Welcome!</h6>
+                  {% endif %}
+              </div>
+           <a class="h6 btn btn-light text-white btn-lg" href="/login" style="background-color: slategrey;">
+               <span class="glyphicon glyphicon-log-out"></span>Log In
+           </a>
+           <a  class="h6 btn btn-light text-white btn-lg ms-3" href="/register" style="background-color: slategrey;">
+               <span class="glyphicon glyphicon-log-out"></span>Register
+           </a>
+           <a  class="h6 btn btn-light shadow btn-lg text-white ms-3" href="" style="background-color: deepskyblue;">
+               <span class="glyphicon glyphicon-log-out"></span>Log out
+           </a>
        </div>
     </div>
 </div>
 
-<div class="container my-5">
+<div class="container my-5" >
     {% for row in articles|batch(3) %}
         <div class="row mt-5">
             {% for article in row %}
                 <div class="col p-2">
-                    <div class=" card rounded-0 p-4 border-0"
+                    <div class=" card p-4 border-0 rounded-0 py-4"
                          style="border-radius: 5px; box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px silver;">
                         {% if article.urlToImage %}
                             <img class="object-cover w-full h-56 rounded-lg lg:w-64" src="{{ article.urlToImage }}" >
                         {% else %}
-                            <img class="object-cover w-full h-56 rounded-lg lg:w-64" src="../img/no-image.png" style="height: 50px; width: 50px">
+                            <img class="object-cover w-full h-56 rounded-lg lg:w-64" src="../img/no-image.png" style="height: 100px; width: 100px">
                         {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ article.title }}</h5>

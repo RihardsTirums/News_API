@@ -1,6 +1,6 @@
 <?php
 require_once "vendor/autoload.php";
-
+session_start();
 use App\Controllers\ArticlesController;
 use App\Controllers\LoginController;
 use App\Controllers\RegisterController;
